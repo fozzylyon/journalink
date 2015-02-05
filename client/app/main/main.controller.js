@@ -1,29 +1,29 @@
 'use strict';
 
 angular.module('journalink')
-  .controller('MainCtrl', function ($scope, $http, $resource, socket) {
-    $scope.awesomeThings = [];
+  .controller('MainCtrl', function ($scope, $http, $resource) {
+    $scope.entries = [];
 
-    $http.get('/api/things').success(function (awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
-      socket.syncUpdates('thing', $scope.awesomeThings);
+    $http.get('/api/entries').success(function (entries) {
+      $scope.entries = entries;
+      // socket.syncUpdates('entry', $scope.entries);
     });
 
-    $scope.addThing = function () {
-      if ($scope.newThing === '') {
+    $scope.addEntry = function () {
+      if ($scope.newEntry === '') {
         return;
       }
-      $http.post('/api/things', {
-        name: $scope.newThing
+      $http.post('/api/entries', {
+        name: $scope.newEntry
       });
-      $scope.newThing = '';
+      $scope.newEntry = '';
     };
 
-    $scope.deleteThing = function (thing) {
-      $http.delete('/api/things/' + thing._id);
+    $scope.deleteEntry = function (entrie) {
+      $http.delete('/api/entries/' + entrie._id);
     };
 
-    $scope.$on('$destroy', function () {
-      socket.unsyncUpdates('thing');
-    });
+    // $scope.$on('$destroy', function () {
+      // socket.unsyncUpdates('entry');
+    // });
   });
