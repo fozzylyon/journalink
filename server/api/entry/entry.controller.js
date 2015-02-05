@@ -17,6 +17,7 @@ exports.showAll = function (req, res) {
     });
 };
 
+
 // Get a single entry
 exports.show = function (req, res) {
   Entry.db.get(req.params.id, function (err, entry) {

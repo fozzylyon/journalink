@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('journalinkApp')
+angular.module('journalink')
   .factory('Modal', function ($rootScope, $modal) {
     /**
      * Opens a modal

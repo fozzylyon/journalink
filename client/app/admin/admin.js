@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('journalinkApp')
+angular.module('journalink')
   .config(function ($stateProvider) {
     $stateProvider
       .state('admin', {

@@ -5,8 +5,8 @@ angular.module('journalink')
     $scope.entries = [];
 
     $http.get('/api/entries').success(function (entries) {
+      console.log( "entries:", entries );
       $scope.entries = entries;
-      // socket.syncUpdates('entry', $scope.entries);
     });
 
     $scope.addEntry = function () {
@@ -22,8 +22,4 @@ angular.module('journalink')
     $scope.deleteEntry = function (entrie) {
       $http.delete('/api/entries/' + entrie._id);
     };
-
-    // $scope.$on('$destroy', function () {
-      // socket.unsyncUpdates('entry');
-    // });
   });

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('journalinkApp')
+angular.module('journalink')
   .controller('SignupCtrl', function ($scope, Auth, $location, $window) {
     $scope.user = {};
     $scope.errors = {};

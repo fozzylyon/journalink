@@ -3,7 +3,7 @@
 /**
  * Removes server error when user updates input
  */
-angular.module('journalinkApp')
+angular.module('journalink')
   .directive('mongooseError', function () {
     return {
       restrict: 'A',
