@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('journalink')
-  .controller('MainCtrl', function ($scope, $http, $resource) {
+  .controller('MainCtrl', function ($scope, $http, $resource, Modal) {
     $scope.entries = [];
     $scope.newEntry = {};
 
@@ -9,7 +9,7 @@ angular.module('journalink')
       $http.get('/api/entries').success(function (entries) {
         $scope.entries = entries;
       });
-    }
+    };
 
     $scope.getEntries();
 

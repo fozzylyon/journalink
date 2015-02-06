@@ -32,12 +32,22 @@
 brand-primary = #CB3939;
 text-color-light = #FFF;
 
-.branded-icon
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1);
+.icon-branded
+  text-shadow 0 -1px 0 rgba(0, 0, 0, 0.1);
   color brand-primary
 
 .page-container
-  margin-top: 75px
+  margin-top 75px
+
+.btn-primary
+  background-color brand-primary
+  border-color darken(brand-primary, 20%)
+
+  &:hover
+    background-color text-color-light
+    border-color brand-primary
+    color brand-primary
+
 
 //
 // Mixins
@@ -48,6 +58,6 @@ text-color-light = #FFF;
 @import 'account/login/login.styl';
 @import 'admin/admin.styl';
 @import 'main/main.styl';
-@import 'navbar.styl';
 @import 'modal/modal.styl';
+@import 'navbar/navbar.styl';
 // endinjector

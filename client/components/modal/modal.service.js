@@ -25,6 +25,32 @@ angular.module('journalink')
     // Public API here
     return {
 
+      /* Information modals */
+      /**
+       * Open an information modal
+       * @param  {String} info   - info to show on modal
+       * @param  {All}           - any additional args are passed staight to close callback
+       */
+      info: function (title, info, close) {
+        close = close || angular.noop;
+
+        var infoModal = openModal({
+          modal: {
+            dismissable: true,
+            title: title,
+            html: info,
+            buttons: [{
+              classes: 'btn-default',
+              text: 'Close',
+              click: function (e) {
+                infoModal.dismiss(e);
+              }
+            }]
+          }
+        }, 'modal-primary');
+      },
+
+
       /* Confirmation modals */
       confirm: {
 
@@ -33,7 +59,7 @@ angular.module('journalink')
          * @param  {Function} del - callback, ran when delete is confirmed
          * @return {Function}     - the function to open the modal (ex. myModalFn)
          */
-        delete: function(del) {
+        delete: function (del) {
           del = del || angular.noop;
 
           /**
@@ -41,10 +67,10 @@ angular.module('journalink')
            * @param  {String} name   - name or info to show on modal
            * @param  {All}           - any additional args are passed staight to del callback
            */
-          return function() {
+          return function () {
             var args = Array.prototype.slice.call(arguments),
-                name = args.shift(),
-                deleteModal;
+              name = args.shift(),
+              deleteModal;
 
             deleteModal = openModal({
               modal: {
@@ -54,20 +80,20 @@ angular.module('journalink')
                 buttons: [{
                   classes: 'btn-danger',
                   text: 'Delete',
-                  click: function(e) {
+                  click: function (e) {
                     deleteModal.close(e);
                   }
                 }, {
                   classes: 'btn-default',
                   text: 'Cancel',
-                  click: function(e) {
+                  click: function (e) {
                     deleteModal.dismiss(e);
                   }
                 }]
               }
             }, 'modal-danger');
 
-            deleteModal.result.then(function(event) {
+            deleteModal.result.then(function (event) {
               del.apply(event, args);
             });
           };
