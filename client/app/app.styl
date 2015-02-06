@@ -1,5 +1,6 @@
-@import "font-awesome/css/font-awesome.css"
-@import "bootstrap/dist/css/bootstrap.css"
+@import 'font-awesome/css/font-awesome.css'
+@import 'bootstrap/dist/css/bootstrap.css'
+@import 'variables.styl'
 
 //
 // Bootstrap Fonts
@@ -29,11 +30,9 @@
 
 //
 // App-wide Styles
-brand-primary = #CB3939;
-text-color-light = #FFF;
 
 .icon-branded
-  text-shadow 0 -1px 0 rgba(0, 0, 0, 0.1);
+  text-shadow 0 -1px 0 rgba(0, 0, 0, 0.1)
   color brand-primary
 
 .page-container
@@ -43,20 +42,50 @@ text-color-light = #FFF;
   background-color brand-primary
   border-color darken(brand-primary, 20%)
 
-  &:hover
+  &:disabled, &:hover, &:focus
     background-color text-color-light
     border-color brand-primary
     color brand-primary
 
-.btn-link
+  &:disabled
+    border-color white
+
+textarea
+  resize vertical
+
+ul:not(.nav)
+  list-style none
+  padding 0
+  margin 0
+
+  li
+    padding-left 1em
+
+  li:before
+      content '•  '
+      padding-right 5px
+      color brand-primary
+
+.btn-link, a
   color brand-primary
 
   &:hover
     color darken(brand-primary, 20%)
 
-.modal .modal-body
-    max-height 420px
-    overflow-y auto
+.btn-branded-muted
+  color lighten(brand-primary, 50%)
+
+  &:hover
+    color brand-primary
+
+.footer
+  background-color: brand-primary
+  border-color: darken(brand-primary, 20%)
+  color: text-color-light
+  text-shadow: -1px -1px 0 darken(brand-primary, 10%)
+  margin-top 70px
+  padding 30px 0
+  text-align center
 
 //
 // Mixins
@@ -67,6 +96,7 @@ text-color-light = #FFF;
 @import 'account/login/login.styl';
 @import 'admin/admin.styl';
 @import 'main/main.styl';
+@import 'variables.styl';
 @import 'modal/modal.styl';
 @import 'navbar/navbar.styl';
 // endinjector
