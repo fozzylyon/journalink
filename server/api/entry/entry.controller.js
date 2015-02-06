@@ -9,8 +9,10 @@ var schema = Entry.schema;
 
 // Get list of entries
 exports.showAll = function (req, res) {
-  db.view('entries/all', {
-      include_doc: true
+  db.view('entries/all-by-date', {
+      descending: true,
+      include_doc: true,
+      limit: 365
     },
     function (err, entries) {
       if (err) {

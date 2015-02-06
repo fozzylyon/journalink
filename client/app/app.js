@@ -7,7 +7,9 @@ angular.module('journalink', [
   'btford.socket-io',
   'ui.router',
   'ui.bootstrap',
-  'truncate'
+  'truncate',
+  'angularMoment',
+  'btford.markdown'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider

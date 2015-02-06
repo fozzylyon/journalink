@@ -17,7 +17,7 @@
           <input type="text" class="form-control" placeholder="Title" ng-model="newEntry.title">
         </div>
         <div class="form-group">
-          <textarea class="form-control" placeholder="Body" ng-model="newEntry.body"></textarea>
+          <textarea class="form-control" placeholder="Body" rows="6" ng-model="newEntry.body"></textarea>
         </div>
         <div class="form-group">
           <a class="pull-right btn btn-primary" ng-click="addEntry()">
@@ -29,9 +29,9 @@
       <article class="col-xs-12" ng-repeat="entry in entries">
         <header>
           <h2>{{entry.title}}</h2>
-          <p class="text-muted">{{entry.created}}</p>
+          <p class="text-muted">{{entry.created | amCalendar}}</p>
         </header>
-        <p>{{entry.body | words:25 }}</p>
+        <p btf-markdown="entry.body"></p>
       </article>
 
     </div>

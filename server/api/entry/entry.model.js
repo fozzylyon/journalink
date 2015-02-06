@@ -12,22 +12,6 @@ var designDoc = {
   language: 'javascript',
 
   updates: {
-    'time_stamp_add': function (doc, req) {
-      if (!doc) {
-        var new_doc = {};
-        if (req.id) {
-          new_doc._id = req.id;
-        } else {
-          new_doc._id = req.uuid;
-        }
-        new_doc.timestamp = new Date().getTime();
-        new_doc.body = eval('(' + req.body + ')');
-        return [new_doc, 'added new'];
-      }
-      doc.timestamp = new Date().getTime();
-      return [doc, 'updated'];
-    }.toString()
-
   },
 
   views: {
