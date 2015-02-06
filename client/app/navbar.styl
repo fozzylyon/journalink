@@ -1,0 +1,40 @@
+.navbar-branded
+  background-color: brand-primary
+  border-color: darken(brand-primary, 20%)
+  color: text-color-light
+  text-shadow: -1px -1px 0 darken(brand-primary, 10%);
+
+  &:hover a
+    text-shadow: none
+
+  .navbar-brand
+    cursor: default;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    margin: auto;
+    margin-top: -8px
+    color: text-color-light
+
+    &:hover
+      color: text-color-light
+
+  .navbar-collapse
+    border-color: darken(brand-primary, 20%)
+
+  .navbar-nav > .active > a
+    color: text-color-light
+    background-color: brand-primary
+
+    &:hover
+      color: brand-primary
+      background-color: text-color-light
+
+   .navbar-nav > li > a
+      color: text-color-light
+      background-color: brand-primary
+
+      &:hover
+        color: brand-primary
+        background-color: text-color-light

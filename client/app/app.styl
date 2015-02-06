@@ -29,14 +29,18 @@
 
 //
 // App-wide Styles
+brand-primary = #CB3939;
+text-color-light = #FFF;
 
+.branded-icon
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1);
+  color brand-primary
+
+.page-container
+  margin-top: 75px
 
 //
 // Mixins
-text3d(color)
-  color: color
-  text-shadow: 1px 1px 0px darken(color, 5%), 2px 2px 0px darken(color, 10%), 3px 3px 0px darken(color, 15%), 4px 4px 0px darken(color, 20%), 4px 4px 2px #000
-
 
 
 // Component styles are injected through grunt
@@ -44,5 +48,6 @@ text3d(color)
 @import 'account/login/login.styl';
 @import 'admin/admin.styl';
 @import 'main/main.styl';
+@import 'navbar.styl';
 @import 'modal/modal.styl';
 // endinjector
