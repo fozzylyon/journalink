@@ -28,26 +28,25 @@ angular.module('journalink')
       /* Information modals */
       /**
        * Open an information modal
-       * @param  {String} info   - info to show on modal
-       * @param  {All}           - any additional args are passed staight to close callback
+       * @param  {String} title         - title to show on modal
+       * @param  {String} info          - info to show on modal
+       * @param  {String} templateUrl   - templateUrl to show on modal
        */
-      info: function (title, info, close) {
-        close = close || angular.noop;
-
+      info: function (options) {
         var infoModal = openModal({
-          modal: {
+          modal: _.extend({
             dismissable: true,
-            title: title,
-            html: info,
             buttons: [{
               classes: 'btn-default',
               text: 'Close',
               click: function (e) {
                 infoModal.dismiss(e);
               }
-            }]
-          }
-        }, 'modal-primary');
+            }],
+            footer: false
+          }, options)
+        },
+        options.modalClass || 'modal-primary');
       },
 
 
@@ -65,7 +64,7 @@ angular.module('journalink')
           /**
            * Open a delete confirmation modal
            * @param  {String} name   - name or info to show on modal
-           * @param  {All}           - any additional args are passed staight to del callback
+           * @param  {All}           - any additional args are passed straight to del callback
            */
           return function () {
             var args = Array.prototype.slice.call(arguments),

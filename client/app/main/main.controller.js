@@ -11,10 +11,19 @@ angular.module('journalink')
       });
     };
 
+    $scope.showTips = function () {
+      $http.get('/assets/md/tips.md').success(function (response) {
+        Modal.info({
+          title: 'Tips',
+          md: response
+        });
+      });
+    };
+
     $scope.getEntries();
 
     $scope.addEntry = function () {
-      if (_.isEmpty($scope.newEntry)) {
+      if (_.isEmpty($scope.newEntry.body)) {
         return;
       }
 
