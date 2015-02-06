@@ -3,23 +3,29 @@
 angular.module('journalink')
   .controller('MainCtrl', function ($scope, $http, $resource) {
     $scope.entries = [];
+    $scope.newEntry = {};
 
-    $http.get('/api/entries').success(function (entries) {
-      console.log( "entries:", entries );
-      $scope.entries = entries;
-    });
+    $scope.getEntries = function () {
+      $http.get('/api/entries').success(function (entries) {
+        $scope.entries = entries;
+      });
+    }
+
+    $scope.getEntries();
 
     $scope.addEntry = function () {
-      if ($scope.newEntry === '') {
+      if (_.isEmpty($scope.newEntry)) {
         return;
       }
-      $http.post('/api/entries', {
-        name: $scope.newEntry
-      });
-      $scope.newEntry = '';
+
+      $http.post('/api/entries', $scope.newEntry)
+        .success(function () {
+          $scope.newEntry = {};
+          $scope.getEntries()
+        });
     };
 
-    $scope.deleteEntry = function (entrie) {
-      $http.delete('/api/entries/' + entrie._id);
+    $scope.deleteEntry = function (entry) {
+      $http.delete('/api/entries/' + entry._id);
     };
   });

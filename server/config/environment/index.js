@@ -60,7 +60,7 @@ var defaults = {
   }
 };
 
-console.log( require('./' + process.env.NODE_ENV + '.js'));
+// console.log( require('./' + process.env.NODE_ENV + '.js'));
 
 // Export the config object based on the NODE_ENV
 // ==============================================

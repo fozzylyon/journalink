@@ -5,8 +5,6 @@ var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
 
-var db = require('nano')(config.couch.uri);
-
 var validationError = function(res, err) {
   return res.json(422, err);
 };

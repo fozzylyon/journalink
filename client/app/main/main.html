@@ -2,37 +2,43 @@
 
 <header class="hero-unit" id="banner">
   <div class="container">
-    <h1>'Allo, 'Allo!</h1>
-    <p class="lead">Kick-start your next web app with Angular Fullstack</p>
-    <img src="assets/images/yeoman.png" alt="I'm Yeoman">
+    <h1>journalink</h1>
   </div>
 </header>
 
 <div class="container">
+
   <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header">Features:</h1>
-      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="entry in entries">
-        <li><a href="#" tooltip="{{entry.title}}">{{entry.body}}<button type="button" class="close" ng-click="deleteEntry(entry)">&times;</button></a></li>
-      </ul>
+    <div class="col-xs-12">
+      <h1 class="page-header">Entries</h1>
+
+      <form class="entry-form">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Title" ng-model="newEntry.title">
+        </div>
+        <div class="form-group">
+          <textarea class="form-control" placeholder="Body" ng-model="newEntry.body"></textarea>
+        </div>
+        <div class="form-group">
+          <a class="pull-right btn btn-primary" ng-click="addEntry()">
+            <i class="fa fa-check fa-lg"></i> Add
+          </a>
+        </div>
+      </form>
+
+      <article class="col-xs-12" ng-repeat="entry in entries">
+        <header>
+          <h2>{{entry.title}}</h2>
+          <p class="text-muted">{{entry.created}}</p>
+        </header>
+        <p>{{entry.body | words:25 }}</p>
+      </article>
+
     </div>
   </div>
-
-  <form class="entry-form">
-    <label>Syncs in realtime across clients</label>
-    <p class="input-group">
-      <input type="text" class="form-control" placeholder="Add a new entry here." ng-model="newEntry">
-      <span class="input-group-btn">
-        <button type="submit" class="btn btn-primary" ng-click="addEntry()">Add New</button>
-      </span>
-    </p>
-  </form>
 </div>
 
 <footer class="footer">
   <div class="container">
-      <p>Angular Fullstack v2.0.13 |
-        <a href="https://twitter.com/tyhenkel">@tyhenkel</a> |
-         <a href="https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open">Issues</a></p>
   </div>
 </footer>

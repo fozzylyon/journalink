@@ -1,6 +1,5 @@
 'use strict';
 
-var nano = require('nano')('http://localhost:5984').use('journalink');
 var passport = require('passport');
 var config = require('../config/environment');
 var jwt = require('jsonwebtoken');

@@ -7,24 +7,34 @@
 // Set default node environment to dev
 process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 
+var path = require('path');
 var express = require('express');
 var config = require('./config/environment');
 
 // Connect to database
-var nano = require('nano')(config.couch.host);
-nano.db.create(config.couch.db, function (err, body) {
+// Set global connection settings
+var cradle = require('cradle').setup({
+  host: config.couch.host,
+  port: config.couch.port
+});
+
+var db = new(cradle.Connection)().database(config.couch.db);
+db.create(function (err, body) {
   if (err) {
     console.log(err.reason);
+  } else {
+    console.log(config.couch.db, 'database created.');
   }
 });
-nano.use(config.couch.db);
-
 
 // Populate DB with sample data
-if(config.seedDB) { require('./config/seed'); }
+if (config.seedDB) {
+  require('./config/seed');
+}
 
 // Setup server
 var app = express();
+app.set('db', db);
 var server = require('http').createServer(app);
 var socketio = require('socket.io')(server, {
   serveClient: (config.env === 'prod') ? false : true,
@@ -33,6 +43,7 @@ var socketio = require('socket.io')(server, {
 require('./config/socketio')(socketio);
 require('./config/express')(app);
 require('./routes')(app);
+
 
 // Start server
 server.listen(config.port, config.ip, function () {

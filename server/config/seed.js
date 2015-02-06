@@ -7,10 +7,8 @@
 
 var config = require('../config/environment');
 
-var User = require('../api/user/user.model');
-var User = require('../api/entry/entry.model');
-
-var nano = require('nano');
+// var User = require('../api/user/user.model');
+// var Entry = require('../api/entry/entry.model');
 
 // User.find({}).remove(function() {
 //   User.create({

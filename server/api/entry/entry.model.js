@@ -1,32 +1,37 @@
 'use strict';
 
 var config = require('../../config/environment');
-var db = require('nano')(config.couch.uri);
+var db = new(require('cradle').Connection)().database(config.couch.db);
 
-var design = '_design/entries';
+var schema = {
+  type: 'entry'
+};
 var designDoc = {
-  _id: design,
+  _id: '_design/entries',
 
   language: 'javascript',
 
   updates: {
-    'in-place': function (doc, req) {
-      return [doc, req];
-      var field = req.query.field;
-      var value = req.query.value;
-      var message = 'set ' + field + ' to ' + value;
-      doc[field] = value;
-      return [doc, message];
-    }.toString(),
-
-    'in-place-result': function (doc, req) {
-      doc.field = req.form.field.new_value;
-      return [doc, toJSON(doc)];
+    'time_stamp_add': function (doc, req) {
+      if (!doc) {
+        var new_doc = {};
+        if (req.id) {
+          new_doc._id = req.id;
+        } else {
+          new_doc._id = req.uuid;
+        }
+        new_doc.timestamp = new Date().getTime();
+        new_doc.body = eval('(' + req.body + ')');
+        return [new_doc, 'added new'];
+      }
+      doc.timestamp = new Date().getTime();
+      return [doc, 'updated'];
     }.toString()
+
   },
 
   views: {
-    entries: {
+    all: {
       map: function (doc) {
         if (doc.type === 'entry') {
           emit(doc._id, doc);
@@ -34,7 +39,7 @@ var designDoc = {
       }.toString()
     },
 
-    'entries-by-date': {
+    'all-by-date': {
       map: function (doc) {
         if (doc.type === 'entry') {
           emit(doc.postedAt, doc);
@@ -44,15 +49,12 @@ var designDoc = {
   }
 };
 
-var schema = {
-  type: 'entry'
-};
-
-db.insert(designDoc);
+db.save(designDoc, function (err) {
+  if (err) console.log('Error creating design doc:', designDoc._id);
+});
 
 module.exports = {
   schema: schema,
-  design: design,
   designDoc: designDoc,
   db: db
 };

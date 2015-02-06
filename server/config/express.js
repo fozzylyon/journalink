@@ -13,7 +13,6 @@ var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
 var errorHandler = require('errorhandler');
 var path = require('path');
-var url = require('url');
 var config = require('./environment');
 var passport = require('passport');
 var session = require('express-session');
@@ -38,7 +37,7 @@ module.exports = function(app) {
     secret: config.secrets.session,
     resave: true,
     saveUninitialized: true,
-    store: new couchDBStore({ name: config.couch.db, host: url.parse(config.couch.host).hostName })
+    store: new couchDBStore({ uri: config.couch.uri })
   }));
 
   if (env === 'prod') {

@@ -6,7 +6,8 @@ module.exports = {
   // CouchDB connection options
   couch: {
     uri: 'http://localhost/journalink-test',
-    host: 'http://localhost:5984',
+    host: 'http://localhost',
+    port: 5984,
     db: 'journalink-dev'
   }
 };

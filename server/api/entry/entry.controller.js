@@ -1,26 +1,30 @@
 'use strict';
 
 var _ = require('lodash');
+var moment = require('moment');
+
 var Entry = require('./entry.model');
+var db = Entry.db;
 var schema = Entry.schema;
 
-// Get list of entrys
+// Get list of entries
 exports.showAll = function (req, res) {
-  Entry.db.view('entries', 'entries', {
+  db.view('entries/all', {
       include_doc: true
     },
-    function (err, entrys) {
+    function (err, entries) {
       if (err) {
         return handleError(res, err);
       }
-      return res.json(200, entrys);
+      entries = _.pluck(entries, 'value');
+      return res.json(200, entries);
     });
 };
 
 
 // Get a single entry
 exports.show = function (req, res) {
-  Entry.db.get(req.params.id, function (err, entry) {
+  db.get(req.params.id, function (err, entry) {
     if (err) {
       return handleError(res, err);
     }
@@ -33,46 +37,57 @@ exports.show = function (req, res) {
 
 // Creates a new entry in the DB.
 exports.create = function (req, res) {
-  var entry = _.extend(Entry.schema, req.body);
+  delete req.body._id;
+  delete req.body.created;
+  delete req.body.modified;
 
-  Entry.db.insert(entry, function (err, entry) {
+  var entry = _.extend(Entry.schema, req.body);
+  entry.created = moment().format();
+
+  db.save(entry, function (err, entry) {
     if (err) {
       return handleError(res, err);
     }
-    return res.json(201, entry);
+    db.get(entry._id, function (err, entry) {
+      if (err) {
+        return handleError(res, err);
+      }
+      res.json(201, entry);
+    });
   });
 };
 
 // Updates an existing entry in the DB.
 exports.update = function (req, res) {
-  if (req.body._id) {
-    delete req.body._id;
-  }
+  delete req.body._id;
+  delete req.body.created;
+  delete req.body.modified;
 
   var entry = _.extend(Entry.schema, req.body);
+  entry.modified = moment().format();
 
-  Entry.db.get(req.params.id, function (err, oldEntry) {
+  db.save(req.params.id, entry._rev, entry, function (err, entry) {
     if (err) {
       return handleError(res, err);
     }
-    Entry.db.insert(_.extend(oldEntry, entry), req.params.id, function (err, resp) {
+    if (!entry) {
+      return res.send(404);
+    }
+    db.get(entry._id, function (err, entry) {
       if (err) {
         return handleError(res, err);
       }
-      if (!resp) {
-        return res.send(404);
-      }
-      return res.json(200, resp);
+      res.json(200, entry);
     });
   });
 };
 
 // Deletes a entry from the DB.
 exports.remove = function (req, res) {
-  Entry.db.get(req.params.id, {
+  db.get(req.params.id, {
     revs_info: true
   }, function (err, entry) {
-    Entry.db.destroy(entry._id, entry._revs_info[0].rev, function (err) {
+    db.remove(entry._id, function (err) {
       if (err) {
         return handleError(res, err);
       }
@@ -82,5 +97,8 @@ exports.remove = function (req, res) {
 };
 
 function handleError(res, err) {
-  return res.send(err.statusCode || 500, err);
+  if (err.error === 'conflict') {
+    err.statusCode = 409;
+  }
+  return res.send(err.headers.status || err.statusCode || 500, err);
 }

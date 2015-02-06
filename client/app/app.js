@@ -6,7 +6,8 @@ angular.module('journalink', [
   'ngSanitize',
   'btford.socket-io',
   'ui.router',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'truncate'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
@@ -40,6 +41,14 @@ angular.module('journalink', [
         }
       }
     };
+  })
+
+  // allow DI for use in controllers, unit tests
+  .constant('_', window._)
+
+  // use in views, ng-repeat="x in _.range(3)"
+  .run(function ($rootScope) {
+     $rootScope._ = window._;
   })
 
   .run(function ($rootScope, $location, Auth) {
